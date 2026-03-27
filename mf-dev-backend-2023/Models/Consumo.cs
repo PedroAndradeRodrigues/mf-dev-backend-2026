@@ -16,6 +16,7 @@ namespace mf_dev_backend_2023.Models
         [Required]
         public DateTime Data { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Valor { get; set; }
         [Required]
         public TipoCombustivel Tipo { get; set; }
