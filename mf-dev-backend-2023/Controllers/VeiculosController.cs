@@ -24,5 +24,35 @@ namespace mf_dev_backend_2023.Controllers
             var model = await _context.Veiculos.ToListAsync();
             return Ok(model);
         }
+
+        //[Authorize(Roles = "Administrador,Usuario")]
+        [HttpPost]
+        public async Task<ActionResult> Create(Veiculo model)
+        {
+            if (model.AnoFabricacao <= 0 || model.AnoModelo <= 0)
+            {
+                return BadRequest(new { message = "Ano de Fabricação e Ano do Modelo são obrigatórios e devem ser maiores do que zero" });
+            }
+
+            _context.Veiculos.Add(model);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetById", new { id = model.Id }, model);
+        }
+
+        //[Authorize(Roles = "Administrador")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetById(int id)
+        {
+            var model = await _context.Veiculos
+                //.Include(t => t.Usuarios).ThenInclude(t => t.Usuario)
+               // .Include(t => t.Consumos)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (model == null) return NotFound();
+
+            //GerarLinks(model);
+            return Ok(model);
+        }
     }
 }
