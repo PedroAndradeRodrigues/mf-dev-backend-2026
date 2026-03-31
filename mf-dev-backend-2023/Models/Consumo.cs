@@ -7,7 +7,7 @@ namespace mf_dev_backend_2023.Models
 {
 
     [Table("Consumos")]
-    public class Consumo
+    public class Consumo : LinksHATEOS
     {
         [Key]
         public int Id { get; set; }
